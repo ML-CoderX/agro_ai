@@ -1,0 +1,78 @@
+# 🌱 AgroAI - AI-Powered Agricultural Advisory Platform
+
+AgroAI is a modern, responsive web application designed to assist farmers by providing AI-driven crop recommendations and instant disease detection. Built with cutting-edge web technologies, it runs powerful Machine Learning models entirely in the backend/frontend without relying on heavy Python servers or external paid APIs!
+
+## 🚀 Features
+
+### 1. 🌾 Intelligent Crop Recommendation (Real ML)
+Get accurate crop recommendations tailored to specific farm conditions. 
+- **Machine Learning Engine:** Powered by a K-Nearest Neighbors (KNN) model (`ml-knn`).
+- **Data-Driven:** Dynamically trained on a dataset of **10,000 real-world soil and climate data points**.
+- **Features Analyzed:** Soil Type (Alluvial, Red/Yellow, Black, Laterite), Rainfall (mm), Temperature (°C), and Season.
+- **Capabilities:** Classifies and recommends out of **19 different crops** (Wheat, Rice, Corn, Soybeans, Arhar, Urd, etc.) and provides mock yield, best practices, and severity risks.
+
+### 2. 🔍 Plant Disease Detection (Computer Vision)
+Upload a photo of a sick plant leaf and get an instant diagnosis!
+- **Transfer Learning:** Uses **TensorFlow.js** and the **MobileNet** vision model to extract feature activations from images.
+- **Custom KNN Classifier:** Trained on a dataset of real Rice and Corn leaves.
+- **Supported Diseases:** 
+  - **Rice:** Bacterial Leaf Blight, Brown Spot, Leaf Smut
+  - **Corn/Maize:** Blight, Common Rust, Gray Leaf Spot, Healthy
+- **Smart Image Preprocessing:** Uploaded images (including WebP and HEIC) are automatically resized to 224x224 and converted to lightweight JPEG format on the client-side using an invisible HTML5 Canvas, ensuring lightning-fast uploads and avoiding unsupported format crashes.
+
+### 3. 📊 Dashboard & Market Insights
+- Interactive dashboards (`/dashboard`) and live Mandi Prices (`/mandi-prices`) to help farmers track economic viability.
+
+### 4. 🌍 Accessibility
+- Built-in Language Switcher for multi-lingual support.
+- Voice Assistant capabilities.
+
+---
+
+## 💻 Tech Stack
+
+- **Framework:** [Next.js 16](https://nextjs.org/) (App Router)
+- **UI Library:** React 19
+- **Styling:** Tailwind CSS v4
+- **Components:** shadcn/ui (Radix UI primitives)
+- **Animations:** Framer Motion
+- **Machine Learning:** 
+  - `@tensorflow/tfjs` & `@tensorflow-models/mobilenet` (Vision)
+  - `ml-knn` (Data classification)
+
+---
+
+## 🛠️ Getting Started Locally
+
+### Prerequisites
+Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
+
+### Installation
+
+1. **Clone the repository and navigate into it**
+   ```bash
+   cd hackathon
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+   *(Note: The `jimp` package was specifically pinned to `0.22.12` to ensure proper image parsing in Node.js)*
+
+3. **Start the Development Server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Access the Application**
+   Open your browser and navigate to: [http://localhost:3000](http://localhost:3000)
+
+---
+
+## 🧠 ML Model Training Scripts
+
+This project includes custom training scripts for the Machine Learning models. If you wish to retrain the models with new data:
+
+- **Crop Recommendation**: The raw CSV data was optimized into a lightweight JSON file via `scratch/build_dataset.js`. The KNN model trains instantly on-the-fly during the first API request.
+- **Disease Detection**: Run `node scripts/train.js` to process the raw image dataset (Rice and Corn) through MobileNet and save the compiled tensor weights to `lib/ml/disease_model.json`. (Limited to 50 images per class for fast Hackathon compilation).
